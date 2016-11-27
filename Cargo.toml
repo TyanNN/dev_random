@@ -1,0 +1,8 @@
+[package]
+name = "dev_random"
+version = "0.1.0"
+authors = ["TyanNN <tyannn@cocaine.ninja>"]
+
+[dependencies]
+hyper = "*"
+rustc-serialize = "*"
