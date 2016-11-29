@@ -6,3 +6,5 @@ authors = ["TyanNN <tyannn@cocaine.ninja>"]
 [dependencies]
 hyper = "*"
 rustc-serialize = "*"
+rand = "*"
+multipart = "*"
