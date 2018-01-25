@@ -162,25 +162,27 @@ fn post() {
                 let saved_photos = saved_photos.find("response").unwrap();
                 let saved_photos_count = saved_photos.find("count").unwrap().as_i64().unwrap() as usize;
 
-                let random_photo_id = {
-                    let mut r = Vec::new();
-                    let count_c = saved_photos_count / 1000;
-                    let mut counting = 0;
-                    while counting < count_c {
-                        let got = vk_req("photos.get", &map_r!("owner_id" => box random_member,
-                                                               "album_id" => box "saved",
-                                                               "count" => box 1000, "offset" => box (counting * 1000),
-                                                               "v" => box "5.60"));
-                        let mut got = got.unwrap().find("response").unwrap().as_object().unwrap()["items"].as_array().unwrap().clone();
-                        r.append(&mut got);
-                        counting += 1;
-                    }
-                    r[StdRng::new().unwrap().gen_range::<usize>(0, r.len() - 1)].find("id").unwrap().as_i64().unwrap()
-                };
+                if saved_photos_count > 0 {
+                    let random_photo_id = {
+                        let mut r = Vec::new();
+                        let count_c = saved_photos_count / 1000;
+                        let mut counting = 0;
+                        while counting < count_c {
+                            let got = vk_req("photos.get", &map_r!("owner_id" => box random_member,
+                                                                   "album_id" => box "saved",
+                                                                   "count" => box 1000, "offset" => box (counting * 1000),
+                                                                   "v" => box "5.60"));
+                            let mut got = got.unwrap().find("response").unwrap().as_object().unwrap()["items"].as_array().unwrap().clone();
+                            r.append(&mut got);
+                            counting += 1;
+                        }
+                        r[StdRng::new().unwrap().gen_range::<usize>(0, r.len() - 1)].find("id").unwrap().as_i64().unwrap()
+                    };
 
-                vk_req("wall.post", &map_r!("owner_id" => box -GROUP_ID,
-                                            "attachments" => box format!("photo{}_{}", random_member, random_photo_id),
-                                            "signed" => box 1)).unwrap();
+                    vk_req("wall.post", &map_r!("owner_id" => box -GROUP_ID,
+                                                "attachments" => box format!("photo{}_{}", random_member, random_photo_id),
+                                                "signed" => box 1)).unwrap();
+                }
             } else {
                 post();
             }
