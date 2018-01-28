@@ -1,9 +1,14 @@
 [package]
 name = "dev_random"
 version = "0.1.0"
-authors = ["TyanNN <tyannn@cocaine.ninja>"]
+authors = ["vaartis <vaartis@cock.li>"]
 
 [dependencies]
 hyper = "=0.9"
 rustc-serialize = "*"
 rand = "*"
+
+log = "*"
+simplelog = "0.4.4"
+
+dotenv = "0.10.1"
