@@ -256,6 +256,9 @@ fn post(token: &str, group_id: isize) {
             }
         } else {
             error!("Ошибка при получении альбомов: {:?}", albums);
+            info!("Перезапускаю проверку предложки");
+
+            post(token, group_id);
         }
     }
 }
