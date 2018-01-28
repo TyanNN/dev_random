@@ -15,7 +15,7 @@ use std::fmt::Display;
 use std::collections::HashMap;
 
 use simplelog::*;
-use std::fs::File;
+use std::fs::OpenOptions;
 
 use hyper::{Client};
 
@@ -272,7 +272,7 @@ fn main() {
         .parse::<isize>().expect("DEVRANDOM_GROUP_ID is not a number");
     let token= env::var("DEVRANDOM_TOKEN").expect("DEVRANDOM_TOKEN is not set");
 
-    WriteLogger::init(LogLevelFilter::Info, Config::default(), File::create(log_file).unwrap()).unwrap();
+    WriteLogger::init(LogLevelFilter::Info, Config::default(), OpenOptions::new().append(true).create(true).open(log_file).unwrap()).unwrap();
 
     if std::env::args().collect::<Vec<_>>().contains(&"post".to_string()) {
         post(&token, group_id);
